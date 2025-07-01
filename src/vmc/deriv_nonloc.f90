@@ -263,6 +263,7 @@ contains
       real(dp), dimension(3, ncent) :: da_single_en, da_single_een
       real(dp) :: d2n
       real(dp), parameter :: half = .5d0
+
 #if defined(TREXIO_FOUND) && defined(QMCKL_FOUND)
       integer(qmckl_exit_code) :: rc
 #endif
@@ -287,7 +288,7 @@ contains
 #if defined(TREXIO_FOUND) && defined(QMCKL_FOUND)
       
       if (iforce_analy .gt. 0) then
-        call deriv_jastrowe_qmckl(iel,xquad(:,iq),fjn(:,:),d2n,fsumn,dpsij_ratio(:,iq),1)   
+        call deriv_jastrowe_qmckl(iel,xquad(:,iq),fjn,d2n,fsumn,dpsij_ratio(:,iq),2)   
 
         rc = qmckl_get_forces_jastrow_single_en(qmckl_ctx(qmckl_no_ctx), da_single_en, 3_8*ncent)
         if (rc /= QMCKL_SUCCESS) call fatal_error('Error getting QMCkl Jastrow single en force.')
@@ -297,6 +298,7 @@ contains
           do k = 1, 3
             da_psij_ratio(k,ic,iq)=da_single_en(k,ic)+da_single_een(k,ic)
             ! write(ounit, *), 'da_psij', da_psij_ratio(k,ic,iq), da_single_en(k,ic), da_single_een(k,ic)
+            !print*, "da_psij_ratio", da_psij_ratio(k,ic,iq)
           enddo
         enddo
         do k=1,3
@@ -318,6 +320,7 @@ contains
       ! print*, "end deriv_jastrowe_qmckl"
 
       psij_ratio(iq) = fsumn
+      
 #else
       if(iforce_analy.eq.0) then
         do ic=1,ncent
@@ -512,7 +515,7 @@ contains
       ! print*, "end deriv_jastrowe old"
 
       enddo
-
+      
       return
       end
 end module

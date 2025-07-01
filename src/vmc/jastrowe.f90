@@ -59,14 +59,14 @@ contains
             !UNDO
 #if defined(TREXIO_FOUND) && defined(QMCKL_FOUND) 
          !if (ioptjas.eq.0) then
-           call jastrowe_qmckl(iel, x(:,iel),fjn(1,1,iwf),d2n(iwf),fsumn(iwf),2)
+           call jastrowe_qmckl(iel, x(:,iel),fjn(1,1,iwf),d2n(iwf),fsumn(iwf),1)
 
            fsumn(iwf)=fsumn(iwf)+fsumo(iwf)
            d2n(iwf)=d2n(iwf)+d2o(iwf)
            do i=1,nelec
-            fjn(1,i,iwf)=fjn(1,i,iwf)+fjo(1,i,iwf)
-            fjn(2,i,iwf)=fjn(2,i,iwf)+fjo(2,i,iwf)
-            fjn(3,i,iwf)=fjn(3,i,iwf)+fjo(3,i,iwf)
+           fjn(1,i,iwf)=fjn(1,i,iwf)+fjo(1,i,iwf)
+           fjn(2,i,iwf)=fjn(2,i,iwf)+fjo(2,i,iwf)
+           fjn(3,i,iwf)=fjn(3,i,iwf)+fjo(3,i,iwf)
            enddo
          !else 
          !   call jastrow4e(iel,x,fjn(1,1,iwf),d2n(iwf),fsumn(iwf),fsn(1,1,iwf),fijn(1,1,1,iwf),d2ijn(1,1,iwf), &
@@ -82,7 +82,7 @@ contains
 #else 
            call jastrow4e(iel,x,fjn(1,1,iwf),d2n(iwf),fsumn(iwf),fsn(1,1,iwf),fijn(1,1,1,iwf),d2ijn(1,1,iwf), &
                  fjo(1,1,iwf),d2o(iwf),fsumo(iwf),fso(1,1,iwf),fijo(1,1,1,iwf),d2ijo(1,1,iwf),iflag)
-           
+               
            ! print*, "begin jastrowe old"
            ! print*, "iel", iel
            ! print*, "x", x(:,iel)
